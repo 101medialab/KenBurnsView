@@ -21,6 +21,12 @@ import java.util.Random;
  */
 public class KenBurnsView extends FrameLayout {
 
+    public enum TransitionType {
+        Random,
+        ZoomIn,
+        ZoomOut
+    }
+
     private enum LoadType {
         String,      // A file path, or a uri or url (default)
         ResourceID,  // The id of the resource containing the image
@@ -71,6 +77,8 @@ public class KenBurnsView extends FrameLayout {
 
     private ImageView.ScaleType mScaleType = null;
 
+    private TransitionType mTransitionType = TransitionType.Random;
+
     private static int sCachedSizeForLoadType;
 
     public KenBurnsView(Context context) {
@@ -89,6 +97,14 @@ public class KenBurnsView extends FrameLayout {
 
     public void setScaleType(ImageView.ScaleType mScaleType) {
         this.mScaleType = mScaleType;
+    }
+
+    public TransitionType getTransitionType() {
+        return mTransitionType;
+    }
+
+    public void setTransitionType(TransitionType mTransitionType) {
+        this.mTransitionType = mTransitionType;
     }
 
     public void setPager(LoopViewPager mPager) {
@@ -249,8 +265,27 @@ public class KenBurnsView extends FrameLayout {
     }
 
     public void animate(ImageView view) {
-        float fromScale = pickScale();
-        float toScale = pickScale();
+        float fromScale, toScale;
+
+        switch (mTransitionType) {
+            case ZoomIn: {
+                fromScale = 1.0f;
+                toScale = 1.5f;
+                break;
+            }
+            case ZoomOut: {
+                fromScale = 1.5f;
+                toScale = 1.0f;
+                break;
+            }
+            case Random:
+                default: {
+                    fromScale = pickScale();
+                    toScale = pickScale();
+                    break;
+                }
+        }
+
         float fromTranslationX = pickTranslation(view.getWidth(), fromScale);
         float fromTranslationY = pickTranslation(view.getHeight(), fromScale);
         float toTranslationX = pickTranslation(view.getWidth(), toScale);
