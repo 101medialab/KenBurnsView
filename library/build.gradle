@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
 }
@@ -25,14 +25,14 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 5
-        versionName "1.0.3"
+        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
+        versionCode project.VERSION_CODE as int
+        versionName project.VERSION_NAME
     }
     buildTypes {
         release {
@@ -44,15 +44,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
 
-    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
-    compile "com.github.bumptech.glide:okhttp3-integration:4.0.0-RC1"
-    compile ("com.github.bumptech.glide:recyclerview-integration:4.0.0-RC1") {
+    compile 'com.github.bumptech.glide:glide:4.4.0'
+    compile "com.github.bumptech.glide:okhttp3-integration:4.4.0"
+    compile ("com.github.bumptech.glide:recyclerview-integration:4.4.0") {
         // Excludes the support library because it's already included by Glide.
         transitive = false
     }
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 }
 
 def siteUrl = 'https://github.com/gotokatsuya/KenBurnsView'
